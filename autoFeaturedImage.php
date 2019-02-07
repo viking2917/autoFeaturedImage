@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+
 // an amalgam of:
 // https://wordpress.stackexchange.com/questions/3029/how-to-retrieve-image-from-url-and-set-as-featured-image-post-thumbnail
 // https://wordpress.stackexchange.com/questions/57060/set-first-image-external-as-featured-image-thumbnail
