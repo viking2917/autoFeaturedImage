@@ -27,15 +27,24 @@ require_once(ABSPATH . 'wp-admin/includes/image.php');
  * @param object $post the post object
  * @return bool|string false if no images or img src
  */
+
+
 function extract_image( $post ) {
   $html = $post->post_content;
-  if ( stripos( $html, '<img' ) !== false ) {
-    $regex = '#<\s*img [^\>]*src\s*=\s*(["\'])(.*?)\1#im';
-    preg_match( $regex, $html, $matches );
+
+  return extract_image_string ($html);
+}
+
+function extract_image_string($string) {
+  
+  if ( stripos( $string, '<img' ) !== false ) {
+    // $regex = '#<\s*img [^\>]*src\s*=\s*(["\'])(.*?)\1#im';
+    $regex = "/\<img.+src\=(?:\"|\')(.+?)(?:\"|\')(?:.+?)\>/";
+    preg_match( $regex, $string, $matches );
     unset( $regex );
-    unset( $html );
+    unset( $string );
     if ( is_array( $matches ) && ! empty( $matches ) ) {
-      return  $matches[2];
+      return  $matches[1];
 
     } else {
       return false;
