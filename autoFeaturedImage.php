@@ -20,6 +20,17 @@ require_once(ABSPATH . 'wp-admin/includes/file.php');
 require_once(ABSPATH . 'wp-admin/includes/media.php');
 require_once(ABSPATH . 'wp-admin/includes/image.php');
 
+// via https://www.smashingmagazine.com/2011/03/ten-things-every-wordpress-plugin-developer-should-know/
+function log_me($message) {
+    if (WP_DEBUG === true) {
+        if (is_array($message) || is_object($message)) {
+            error_log(print_r($message, true));
+        } else {
+            error_log($message);
+        }
+    }
+}
+
 
 /**
  * via: https://wordpress.stackexchange.com/questions/57060/set-first-image-external-as-featured-image-thumbnail
@@ -36,12 +47,14 @@ function extract_image( $post ) {
 }
 
 function extract_image_string($string) {
-  
+  log_me('doing extract image string on');
+  log_me($string);
   if ( stripos( $string, '<img' ) !== false ) {
     // $regex = '#<\s*img [^\>]*src\s*=\s*(["\'])(.*?)\1#im';
     $regex = "/\<img.+src\=(?:\"|\')(.+?)(?:\"|\')(?:.+?)\>/";
     preg_match( $regex, $string, $matches );
-    unset( $regex );
+  log_me($matches);
+unset( $regex );
     unset( $string );
     if ( is_array( $matches ) && ! empty( $matches ) ) {
       return  $matches[1];
@@ -71,7 +84,9 @@ function autoset_featured() {
       $postImage = extract_image($post);
       if($postImage) {
 	$result = media_sideload_image($postImage, $post->ID, "test first image");
-	if($result) {
+log_me('result of sideload');
+	      log_me($result);
+	      if($result) {
 	  $attached_image = get_children( "post_parent=$post->ID&post_type=attachment&post_mime_type=image&numberposts=1" );
 	}
       }
