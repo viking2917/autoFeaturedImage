@@ -1,4 +1,10 @@
 <?php
+/**
+ * Plugin Name: autoFeaturedImage
+ * Description: auto create a featured image from inlined images in Wordpress (<img src="...")
+ * Author: Mark Watkins
+ * Version: 0.1
+ */
 
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
